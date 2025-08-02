@@ -4,7 +4,6 @@ This project uses regression techniques to predict house prices based on various
 using the Ames Housing dataset.
 
 ## Dataset
-## Dataset
 
 The dataset contains 2,930 observations and 82 variables, describing residential properties in Ames, Iowa. It includes features such as:
 
@@ -87,6 +86,15 @@ Predicted vs. Actual values can be visualized with ggplot2
 ## 📷 Model Predictions Visualization
 
 ![Price Comparison](images/price_comparison.png)
+
+The scatter plot above compares the predicted house prices from both models against the actual sale prices. Each point represents a property in the test set:
+
+- **Blue dots** correspond to predictions from the **Linear Regression model**
+- **Green dots** correspond to predictions from the **Decision Tree model**
+- The **black dashed line** represents perfect prediction (i.e., predicted = actual)
+
+We observe that the linear regression predictions align more closely to the ideal line, indicating better accuracy overall. In contrast, the decision tree model shows more horizontal clustering, which is typical of trees that predict in discrete value steps. This visual reinforces the evaluation metrics: the linear regression model achieved lower RMSE and higher R² compared to the decision tree.
+
 
 ## Models
 - Linear Regression
