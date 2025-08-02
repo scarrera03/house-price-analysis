@@ -11,7 +11,7 @@ This project applies linear regression and decision trees to predict house price
 - R, caret, rpart, ggplot2
 
 ## Project Structure
-'''
+```
 house-price-analysis/
 │
 ├── analysis.R              # R script with full pipeline
@@ -20,7 +20,7 @@ house-price-analysis/
 ├── README.md               # Project documentation
 ├── images/                 # Exported graphs
 │   └── price_comparison.png
-'''
+```
 
 ## Models
 - Linear Regression
