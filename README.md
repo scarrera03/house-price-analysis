@@ -59,21 +59,15 @@ Model performance was evaluated using:
 - Visual comparison of predicted vs. actual sale prices using scatter plots
 
 
-## Model Comparison
-Model	RMSE	R²
-Linear Regression	38,334.59	0.8002
-Decision Tree	(your value)	(your value)
-
-The Linear Regression model slightly outperformed the Decision Tree in terms of both RMSE and R².
-
 ## Model Performance
 
-| Model             | MSE        |
-|------------------|------------|
-| Linear Regression| *e.g.* 1.47e+09 |
-| Decision Tree    | *e.g.* 1.74e+09 |
+| Model             | RMSE       | R²     | MSE         |
+|------------------|------------|--------|-------------|
+| Linear Regression| 43,156.42  | 0.8955 | 1.86e+09    |
+| Decision Tree    | 40,189.34  | 0.7792 | 1.62e+09    |
 
-> The Linear Regression model achieved slightly better accuracy than the Decision Tree.
+> While the Decision Tree model achieved a slightly lower MSE, the Linear Regression model had a significantly higher R², meaning it explained more of the variance in house prices. This suggests that, overall, linear regression provides more reliable predictions despite slightly higher absolute error.
+
 
 ## Visualization
 A regression tree was plotted using rpart.plot() for interpretability
