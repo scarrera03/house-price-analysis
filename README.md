@@ -14,13 +14,16 @@ This project applies linear regression and decision trees to predict house price
 ```
 house-price-analysis/
 │
-├── analysis.R              # R script with full pipeline
+├── analysis.R                # R script with full pipeline
 ├── house_price_analysis.Rmd  # Optional R Markdown notebook
-├── houses.csv              # Dataset
-├── README.md               # Project documentation
-├── images/                 # Exported graphs
-│   └── price_comparison.png
+├── houses.csv                # Dataset
+├── README.md                 # Project documentation
+├── images/                   # Exported graphs
+│   └── price_comparison.png  # Saved ggplot image
 ```
+## 📷 Model Predictions Visualization
+
+![Price Comparison](images/price_comparison.png)
 
 ## Models
 - Linear Regression
