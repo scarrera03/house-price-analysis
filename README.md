@@ -1,10 +1,8 @@
 # 🏡 House Price Analysis
 
-This project uses regression techniques to predict house prices based on various features from a structured dataset. It compares a Linear Regression model and a Decision Tree model, evaluating their performance on a hold-out test set.
-using the Ames Housing dataset.
+This project uses regression techniques to predict house prices based on various features from a structured dataset. It compares a Linear Regression model and a Decision Tree model, evaluating their performance on a hold-out test set using the Ames Housing dataset.
 
 ## Dataset
-
 The dataset contains 2,930 observations and 82 variables, describing residential properties in Ames, Iowa. It includes features such as:
 
 - Living area
@@ -26,10 +24,6 @@ The goal is to build models that can accurately predict house sale prices (SaleP
 - `houses.csv`: Housing dataset (if included)
 - `.Rproj`: RStudio project file
 
-## Technologies
-- Language: R
-- Libraries: caret, rpart, Metrics, rpart.plot, ffplot2, dplyr
-
 ## Project Structure
 ```
 house-price-analysis/
@@ -43,33 +37,27 @@ house-price-analysis/
 ```
 
 ## Workflow Overview
-1. Data loading and cleaning
+1. **Data loading and preprocessing**
+   - Removed ID variables (`Id`, `Order`, `PID`)
+   - Converted character variables to factors
+   - Removed low-variance and low-level categorical features
+   - Imputed missing values (median for numeric, mode for categorical)
 
-Removed irrelevant ID variables (Order, PID)
+2. **Train/test split**
+   - Stratified split: 70% training, 30% testing (`caret::createDataPartition`)
 
-Checked for missing values
+3. **Model training**
 
-2. Data splitting
+- Linear Regression using all cleaned features (`lm(SalePrice ~ ., data = train_clean)`)
+- Decision Tree Regression trained on the original training set (`rpart(SalePrice ~ ., data = train, method = "anova")`)
 
-Stratified split into training (70%) and testing (30%) sets using caret::createDataPartition
+4. **Evaluation**
 
-3. Feature selection
+Model performance was evaluated using:
 
-Manually selected numeric predictors based on domain knowledge:
+- MSE (Mean Squared Error) on the test set
+- Visual comparison of predicted vs. actual sale prices using scatter plots
 
-4. Model training
-
-Linear Regression with lm()
-
-Decision Tree Regression with rpart(method = "anova")
-
-5. Evaluation
-
-Performance measured with:
-
-RMSE (Root Mean Squared Error)
-
-R² (Coefficient of Determination)
 
 ## Model Comparison
 Model	RMSE	R²
@@ -77,6 +65,15 @@ Linear Regression	38,334.59	0.8002
 Decision Tree	(your value)	(your value)
 
 The Linear Regression model slightly outperformed the Decision Tree in terms of both RMSE and R².
+
+## Model Performance
+
+| Model             | MSE        |
+|------------------|------------|
+| Linear Regression| *e.g.* 1.47e+09 |
+| Decision Tree    | *e.g.* 1.74e+09 |
+
+> The Linear Regression model achieved slightly better accuracy than the Decision Tree.
 
 ## Visualization
 A regression tree was plotted using rpart.plot() for interpretability
@@ -95,7 +92,6 @@ The scatter plot above compares the predicted house prices from both models agai
 
 We observe that the linear regression predictions align more closely to the ideal line, indicating better accuracy overall. In contrast, the decision tree model shows more horizontal clustering, which is typical of trees that predict in discrete value steps. This visual reinforces the evaluation metrics: the linear regression model achieved lower RMSE and higher R² compared to the decision tree.
 
-
 ## Models
 - Linear Regression
 - Decision Tree
@@ -104,13 +100,20 @@ We observe that the linear regression predictions align more closely to the idea
 - Mean Squared Error (MSE)
 - Visual comparison of predictions vs actual prices
 
+## Technologies Used
+- **Language**: R
+- **Libraries**: `tidyverse`, `caret`, `rpart`, `rpart.plot`, `Metrics`, `ggplot2`, `dplyr`
+
 ## Skills Demonstrated
-Data cleaning and preprocessing
+- Data cleaning and preprocessing
+- Factor level alignment across datasets
+- Model training and hyperparameter-free comparison
+- Visualization of results using `ggplot2`
+- Regression model evaluation using MSE
+- Project documentation and reproducibility
 
-Feature selection and engineering
+## 🚀 Next Steps
 
-Supervised learning: regression (linear and non-linear)
-
-Model evaluation and comparison
-
-Code documentation and reproducibility
+- Try ensemble methods (`randomForest`, `xgboost`)
+- Add variable importance and residual plots
+- Deploy as a simple Shiny web app for user interaction
