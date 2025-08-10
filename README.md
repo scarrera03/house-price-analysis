@@ -123,13 +123,13 @@ Language: R
 
 Libraries:
 
-Data manipulation: tidyverse, dplyr
+    Data manipulation: tidyverse, dplyr
+    
+    Modeling: caret, rpart, glmnet
+    
+    Metrics: Metrics
 
-Modeling: caret, rpart, glmnet
-
-Metrics: Metrics
-
-Visualization: rpart.plot, ggplot2
+    Visualization: rpart.plot, ggplot2
 
 ## Skills Demonstrated
 Data preprocessing and cleaning
