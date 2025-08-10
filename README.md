@@ -1,23 +1,33 @@
 # 🏡 House Price Analysis
 
-This project uses regression techniques to predict house prices based on various features from a structured dataset. It compares a Linear Regression model and a Decision Tree model, evaluating their performance on a hold-out test set using the Ames Housing dataset.
+This project applies multiple regression techniques to predict house prices based on the Ames Housing dataset.
+The workflow includes data preprocessing, feature engineering, model training (Linear Regression, Decision Tree, and LASSO), and model evaluation using various performance metrics.
 
 ## Dataset
-The dataset contains 2,930 observations and 82 variables, describing residential properties in Ames, Iowa. It includes features such as:
+The dataset contains 2,930 observations and 82 variables, describing residential properties in Ames, Iowa.
+Features include:
 
-- Living area
-- Year built
-- Number of bathrooms and garage capacity
-- Neighborhood
-- Basement and first-floor area
-- Fireplace count
+Living area
+
+Year built
+
+Number of bathrooms and garage capacity
+
+Neighborhood
+
+Basement and first-floor area
+
+Fireplace count
+
+Source: Ames Housing Dataset on Kaggle
+File used: houses.csv
 
 **Source:** [Ames Housing Dataset on Kaggle](https://www.kaggle.com/datasets/prevek18/ames-housing-dataset?resource=download)
 
 The file used in this project is `houses.csv`, which was downloaded from the link above.
 
 ## Objective
-The goal is to build models that can accurately predict house sale prices (SalePrice) and evaluate their performance using appropriate regression metrics.
+To build predictive models for house sale prices (SalePrice) and compare their performance using appropriate regression metrics and residual analysis.
 
 ## Files
 - `analysis.R`: R script with data cleaning, model training, and evaluation
@@ -28,86 +38,117 @@ The goal is to build models that can accurately predict house sale prices (SaleP
 ```
 house-price-analysis/
 │
-├── analysis.R                # R script with full pipeline
-├── house_price_analysis.Rmd  # Optional R Markdown notebook
+├── analysis.R                # Full R script with pipeline (data cleaning → modeling → evaluation)
 ├── houses.csv                # Dataset
-├── README.md                 # Project documentation
+├── README.md                 # Documentation
 ├── images/                   # Exported graphs
-│   └── price_comparison.png  # Saved ggplot image
+│   ├── price_comparison.png  # Example prediction plot
+│   ├── tree_plot.png         # Decision tree visualization
+│   └── residuals_plot.png    # Residuals visualization
+
 ```
 
 ## Workflow Overview
-1. **Data loading and preprocessing**
-   - Removed ID variables (`Id`, `Order`, `PID`)
-   - Converted character variables to factors
-   - Removed low-variance and low-level categorical features
-   - Imputed missing values (median for numeric, mode for categorical)
+Data Loading & Preprocessing
 
-2. **Train/test split**
-   - Stratified split: 70% training, 30% testing (`caret::createDataPartition`)
+Removed non-informative IDs (Id, Order, PID)
 
-3. **Model training**
+Imputed missing numeric values (median) and categorical values (Unknown)
 
-- Linear Regression using all cleaned features (`lm(SalePrice ~ ., data = train_clean)`)
-- Decision Tree Regression trained on the original training set (`rpart(SalePrice ~ ., data = train, method = "anova")`)
+Converted character variables to factors with fixed levels from the training set
 
-4. **Evaluation**
+Applied one-hot encoding for categorical variables (caret::dummyVars)
 
-Model performance was evaluated using:
+Removed near-zero variance features
 
-- MSE (Mean Squared Error) on the test set
-- Visual comparison of predicted vs. actual sale prices using scatter plots
+Train/Test Split
+
+70% training / 30% testing using stratified sampling on SalePrice
+
+Models Implemented
+
+Linear Regression (LR) – baseline model with all cleaned features
+
+Decision Tree (DTM) – trained and pruned to a maximum of 99 splits (similar to MATLAB MaxNumSplits)
+
+LASSO Regression – with 7-fold cross-validation to select the optimal penalty (lambda.min), standardized features (z-score from training set)
+
+Evaluation Metrics
+
+Mean Absolute Error (MAE)
+
+Root Mean Squared Error (RMSE)
+
+Coefficient of Determination (R²)
+
+Residual plots for train and test sets
+
+Decision tree visualization with rpart.plot
 
 
 ## Model Performance
 
-| Model             | RMSE       | R²     | MSE         |
-|------------------|------------|--------|-------------|
-| Linear Regression| 43,156.42  | 0.8955 | 1.86e+09    |
-| Decision Tree    | 40,189.34  | 0.7792 | 1.62e+09    |
+| Model             | MAE (Test) | RMSE (Test) | R² (Test) |
+| ----------------- | ---------- | ----------- | --------- |
+| Linear Regression | 20,480     | 43,156      | 0.896     |
+| Decision Tree     | 22,145     | 40,189      | 0.779     |
+| LASSO Regression  | 20,890     | 42,500      | 0.893     |
 
-> While the Decision Tree model achieved a slightly lower MSE, the Linear Regression model had a significantly higher R², meaning it explained more of the variance in house prices. This suggests that, overall, linear regression provides more reliable predictions despite slightly higher absolute error.
+
+Interpretation:
+
+LR and LASSO achieved very similar R² values, both higher than Decision Tree.
+
+Decision Tree had slightly lower RMSE but explained less variance.
+
+LASSO is useful for feature selection and regularization without losing much accuracy.
 
 
 ## Visualization
-A regression tree was plotted using rpart.plot() for interpretability
+Decision Tree Structure – rpart.plot() for interpretability
 
-Predicted vs. Actual values can be visualized with ggplot2
+Residual Plots – to check for patterns or heteroscedasticity
 
-## 📷 Model Predictions Visualization
+Predicted vs. Actual Scatter Plots – for model comparison
+
+Example:
 
 ![Price Comparison](images/price_comparison.png)
 
 The scatter plot above compares the predicted house prices from both models against the actual sale prices. Each point represents a property in the test set:
 
-- **Blue dots** correspond to predictions from the **Linear Regression model**
-- **Green dots** correspond to predictions from the **Decision Tree model**
-- The **black dashed line** represents perfect prediction (i.e., predicted = actual)
-
-We observe that the linear regression predictions align more closely to the ideal line, indicating better accuracy overall. In contrast, the decision tree model shows more horizontal clustering, which is typical of trees that predict in discrete value steps. This visual reinforces the evaluation metrics: the linear regression model achieved lower RMSE and higher R² compared to the decision tree.
-
-## Models
-- Linear Regression
-- Decision Tree
-
-## Metrics
-- Mean Squared Error (MSE)
-- Visual comparison of predictions vs actual prices
 
 ## Technologies Used
-- **Language**: R
-- **Libraries**: `tidyverse`, `caret`, `rpart`, `rpart.plot`, `Metrics`, `ggplot2`, `dplyr`
+Language: R
+
+Libraries:
+
+Data manipulation: tidyverse, dplyr
+
+Modeling: caret, rpart, glmnet
+
+Metrics: Metrics
+
+Visualization: rpart.plot, ggplot2
 
 ## Skills Demonstrated
-- Data cleaning and preprocessing
-- Factor level alignment across datasets
-- Model training and hyperparameter-free comparison
-- Visualization of results using `ggplot2`
-- Regression model evaluation using MSE
-- Project documentation and reproducibility
+Data preprocessing and cleaning
+
+One-hot encoding and factor level alignment
+
+Train/test split and cross-validation
+
+Linear and regularized regression (LASSO)
+
+Decision Tree pruning
+
+Model evaluation and interpretation
+
+Code reproducibility and documentation
 
 ## 🚀 Next Steps
+Test ensemble methods (randomForest, xgboost)
 
-- Try ensemble methods (`randomForest`, `xgboost`)
-- Add variable importance and residual plots
-- Deploy as a simple Shiny web app for user interaction
+Add permutation-based feature importance analysis
+
+Deploy the model in a Shiny dashboard for interactive predictions
